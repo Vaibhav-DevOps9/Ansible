@@ -1,0 +1,21 @@
+---
+ - name: Install Nginx
+   hosts: all
+   become: true
+   tasks:
+     - name: Install Nginx
+       apt:
+         name: nginx
+         state: present
+
+     - name: Start Nginx service
+       service:
+         name: nginx
+         state: started
+         enabled: true
+
+     - name: Ensure Nginx is running
+       wait_for:
+         port: 80
+         delay: 10
+         timeout: 30

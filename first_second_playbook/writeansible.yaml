@@ -1,0 +1,27 @@
+---
+  name: Install and configure Apache
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Start Apache service
+      service:
+        name: apache2
+        state: started
+        enabled: true
+
+    - name: Copy index.html to web server root
+      copy:
+        src: /path/to/local/index.html
+        dest: /var/www/html/index.html
+
+    - name: Ensure Apache is running
+      wait_for:
+        port: 80
+        delay: 10
+        timeout: 30
+        state: started
